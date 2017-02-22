@@ -1,0 +1,19 @@
+DOCKERUSER?=sigsci
+DOCKERNAME?=sigsci-apache-ubuntu1604
+DOCKERTAG?=latest
+SIGSCI_ACCESSKEY?=SETME
+SIGSCI_SECRETKEY?=SETME
+SIGSCI_HOSTNAME?=alpine35
+DOCKERMOUNT?="/var/run/sigsci/agent.sock"
+
+build:
+	docker build -t $(DOCKERUSER)/$(DOCKERNAME):$(DOCKERTAG) .
+
+build-no-cache:
+	docker build --no-cache -t $(DOCKERUSER)/$(DOCKERNAME):$(DOCKERTAG) .
+
+run:
+	docker run --name $(DOCKERNAME) -d -e SIGSCI_HOSTNAME=$(SIGSCI_HOSTNAME)  -e SIGSCI_ACCESSKEYID="$(SIGSCI_ACCESSKEY)" -e SIGSCI_SECRETACCESSKEY="$(SIGSCI_SECRETKEY)" $(DOCKERUSER)/$(DOCKERNAME):$(DOCKERTAG)
+
+deploy:
+	docker push $(DOCKERUSER)/$(DOCKERNAME):$(DOCKERTAG)
