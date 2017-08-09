@@ -1,4 +1,4 @@
-## Signal Sciences Docker Configuration - Alpine 3.5 with Apache 2.4
+## Signal Sciences Docker Configuration - Alpine with Apache 2.4
 
 This is a dockerized agent with the SigSci Apache Module and Apache2. This container is set up to take environment variables for the Access Key and Secret Key. You can use a pre-built container or build your own. When building and deploying I tend to use the agent version followed by the SigSci module version for the tag.
 
@@ -9,6 +9,16 @@ This is a dockerized agent with the SigSci Apache Module and Apache2. This conta
 The start.sh is a simple script for doing some customizations. I use it to start the apache service and then set a custom hostname that the Signal Sciences agent will report up. I like to include a hard coded value, I.E. MYKUBECLUSTERNAME, followed by the dynamically found hostname. On Docker, or Kuberneted, the hostname is the docker id. Between those two things it makes it very easy to figure out where the container is running in relation to the agent found in the Signal Sciences dashboard.
 
 **contrib**
+
+_Files:_
+
+````
+    contrib/index.html  # Index.html for the sample web page
+    contrib/signalsciences.png # Sample image for the web page
+    contrib/sigsci-module/httpd.conf # Default httpd.conf with the pre-configured LoadModule for the SigSci Module
+````
+
+
 I'll usually create a .dockerignore file that will ignore adding the contrib to the final docker container and put files that I would like to copy into the container in this folder. For example in my demo container I've put a custom splash screen for the default index.html for Apache2.
 
 ![signalsciences_example_screenshot.png "SigSci Default HTML"] (contrib/signalsciences_example_screenshot.png)
@@ -22,23 +32,23 @@ I tend to prefer nice easy command for doing my tasks in building, deploying, an
 
 ## Running the container
 
-make run DOCKERUSER=trickyhu DOCKERNAME=sigsci-agent-apache-alpine DOCKERTAG=1.14.4-1.4.6 SIGSCI_ACCESSKEY=*ACCESSKEY* SIGSCI_SECRETKEY=*SECRETKEY* SIGSCI_RPCADDRESS="unix:/var/run/sigsci/agent" DOCKERMOUNT=/var/run/sigsci/agent
+make run DOCKERUSER=*USERNAME* DOCKERNAME=sigsci-agent-apache-alpine DOCKERTAG=1.21.0-1.5.1 SIGSCI_ACCESSKEYID=*ACCESSKEY* SIGSCI_SECRETACCESSKEY=*SECRETKEY* SIGSCI_HOSTNAME=dockerhostname
 
 ## Building Docker image
 
 You can use the Makefile to build the Docker Container
 Make Example:
 
-make build DOCKERUSER=YOURDOCUERUSER DOCKERNAME=sigsci-agent-apache-alpine DOCKERTAG=1.14.4-1.4.6
+make build DOCKERUSER=*USERNAME* DOCKERNAME=sigsci-agent-apache-alpine DOCKERTAG=1.21.0-1.5.1
 
 Example:
 
-make build  DOCKERUSER=MYUSER DOCKERNAME=sigsci-agent-apache-alpine DOCKERTAG=1.14.4-1.4.6
+make build  DOCKERUSER=*USERNAME* DOCKERNAME=sigsci-agent-apache-alpine DOCKERTAG=1.21.0-1.5.1
 
 ###Deploying to Docker
 
 You can also use the Makefile to deploy the created container to Docker Hub
 
-make deploy DOCKERUSER=*USERNAME* DOCKERNAME=sigsci-agent-apache-alpine DOCKERTAG=1.14.4-1.4.6
+make deploy DOCKERUSER=*USERNAME* DOCKERNAME=sigsci-agent-apache-alpine DOCKERTAG=1.21.0-1.5.1
 
 
