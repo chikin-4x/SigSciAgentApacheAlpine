@@ -45,7 +45,7 @@ Example:
 
 make build  DOCKERUSER=*USERNAME* DOCKERNAME=sigsci-agent-apache-alpine DOCKERTAG=1.21.0-1.5.1
 
-###Deploying to Docker
+## Deploying to Docker
 
 You can also use the Makefile to deploy the created container to Docker Hub
 
